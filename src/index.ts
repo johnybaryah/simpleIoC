@@ -1,6 +1,6 @@
-import { guidController, IController } from "./controllers/guidController";
+import { guidController } from "./controllers/guidController";
 import { guidService, IGuidService } from "./services/guidService";
-import { IContainer, IServiceCollection, ServiceCollection } from "./simpleioc";
+import { IContainer, ServiceCollection } from "./simpleioc";
 
 
 const services = new ServiceCollection();
