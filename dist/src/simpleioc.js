@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ServiceCollection = exports.LifeTime = void 0;
-var console_1 = require("console");
 var LifeTime;
 (function (LifeTime) {
     LifeTime[LifeTime["Transient"] = 0] = "Transient";
@@ -14,7 +13,7 @@ var Registry = /** @class */ (function () {
     Registry.get = function (key) {
         var service = this._registry.get(key);
         if (typeof service === "undefined")
-            throw console_1.exception("No such service registered. Name: " + key);
+            throw new Error("No such service registered. Name: " + key);
         return service;
     };
     Registry.set = function (key, val) {
@@ -28,6 +27,7 @@ var Registry = /** @class */ (function () {
 }());
 var ServiceCollection = /** @class */ (function () {
     function ServiceCollection() {
+        Registry.clear();
     }
     ServiceCollection.prototype._getDefinition = function (scope, impl, dependencies) {
         var definition = {
@@ -60,8 +60,8 @@ var container = /** @class */ (function () {
         var _this = this;
         var _a, _b;
         var service = Registry.get(name);
-        if (typeof service === 'undefined')
-            throw console_1.exception("No such service registered. Name: " + name);
+        // if (typeof service === 'undefined')
+        //     throw new error("No such service registered. Name: " + name);
         // if definiion is class
         if (typeof service.implementation === 'function') {
             // handle transient
@@ -85,7 +85,6 @@ var container = /** @class */ (function () {
                         service.implementation = new service.implementation();
                     }
                     else {
-                        //const dependencies: any[] = service.dependencies.map((d) => this.getService(d));
                         var dependencies_2 = [];
                         service.dependencies.forEach(function (d) { return dependencies_2.push(_this.getService(d)); });
                         service.implementation = new service.implementation(dependencies_2);
@@ -97,7 +96,7 @@ var container = /** @class */ (function () {
         else {
             return service.implementation;
         }
-        throw console_1.exception('Not implemented code reached');
+        throw new Error('Not implemented code reached');
     };
     return container;
 }());

@@ -1,4 +1,4 @@
-import { exception } from "console";
+import { error } from "console";
 
 export interface IServiceDefinition{
     lifeTIme: LifeTime;
@@ -30,7 +30,7 @@ class Registry{
         const service = this._registry.get(key);
 
         if (typeof service === "undefined")
-            throw exception("No such service registered. Name: " + key);
+            throw new Error("No such service registered. Name: " + key);
 
         return service as IServiceDefinition;
     }
@@ -46,6 +46,10 @@ class Registry{
 
 export class ServiceCollection implements IServiceCollection{
 
+    constructor(){
+        Registry.clear();
+    }
+    
     private _getDefinition(scope: LifeTime, impl: any, dependencies: any[]) {
         const definition: IServiceDefinition = {
             lifeTIme: scope,
@@ -75,8 +79,8 @@ class container implements IContainer{
         
         const service = Registry.get(name);
 
-        if (typeof service === 'undefined')
-            throw exception("No such service registered. Name: " + name);
+        // if (typeof service === 'undefined')
+        //     throw new error("No such service registered. Name: " + name);
 
         // if definiion is class
         if (typeof service.implementation === 'function'){
@@ -115,6 +119,6 @@ class container implements IContainer{
         else{
             return service.implementation;
         }
-        throw exception('Not implemented code reached');
+        throw new Error('Not implemented code reached');
     }
 }

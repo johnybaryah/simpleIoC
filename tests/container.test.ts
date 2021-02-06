@@ -1,3 +1,4 @@
+import { error, exception } from "console";
 import { guidController, IController } from "../src/controllers/guidController";
 import { guidService, IGuidService } from "../src/services/guidService";
 import { ServiceCollection } from "../src/simpleioc"
@@ -51,5 +52,15 @@ describe('serviceCollection', function(){
         const guidResponseFromController = _controller.getAll().response;
         
         expect(guidResponseFromController).toContain(expectedGuid);
+    });
+
+    it('throwsExceptionWhenServiceNotRegistered', function(){
+        const sc = new ServiceCollection();
+
+        const container = sc.buildContainer();
+
+        const serviceName = "MyService";
+
+        expect(function(){ container.getService(serviceName); }).toThrow(new Error("No such service registered. Name: " + serviceName));
     })
 })

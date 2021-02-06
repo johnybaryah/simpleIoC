@@ -37,5 +37,11 @@ describe('serviceCollection', function () {
         var guidResponseFromController = _controller.getAll().response;
         expect(guidResponseFromController).toContain(expectedGuid);
     });
+    it('throwsExceptionWhenServiceNotRegistered', function () {
+        var sc = new simpleioc_1.ServiceCollection();
+        var container = sc.buildContainer();
+        var serviceName = "MyService";
+        expect(function () { container.getService(serviceName); }).toThrow(new Error("No such service registered. Name: " + serviceName));
+    });
 });
 //# sourceMappingURL=container.test.js.map
