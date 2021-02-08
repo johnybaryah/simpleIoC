@@ -75,12 +75,8 @@ export class ServiceCollection implements IServiceCollection{
 
 class container implements IContainer{
 
-    getService(name: string): any{
-        
+    getService(name: string): any{        
         const service = Registry.get(name);
-
-        // if (typeof service === 'undefined')
-        //     throw new error("No such service registered. Name: " + name);
 
         // if definiion is class
         if (typeof service.implementation === 'function'){
